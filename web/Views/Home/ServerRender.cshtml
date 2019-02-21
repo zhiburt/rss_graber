@@ -1,0 +1,116 @@
+﻿@using web.ViewModels
+@using web.Controllers
+@using web.Util.View
+@model IEnumerable<RSS>
+@{
+    ViewData["Title"] = "rss";
+    int lenght = 30;
+    int titleLenght = 80;
+}
+
+<div class="row">
+    @if (Model != null)
+    {
+        <div class="container">
+            <div class="row">
+                <div class="controls col col-12 pb-4 pt-4">
+                    <form asp-action="ServerRender" method="get">
+                        <div class="row">
+                            <div class="col col-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-danger" type="submit" id="button-addon1">Update</button>
+                                    </div>
+                                    <select class="custom-select" name="selectOnly" id="inputGroup" asp-items="@{new SelectList(@ViewData["SelectList"] as IEnumerable<string>)} ">
+                                        @if (!string.IsNullOrEmpty((ViewData["selectOnly"] as string)))
+                                        {
+                                            <option value="@(ViewData["selectOnly"] as string)" selected>@(ViewData["selectOnly"] as string)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="" disabled selected>Resources...</option>
+                                        }
+                                    </select>
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="inputGroupSelect01">Source</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-6">
+                                <div class="input-group center-block">
+                                    @{
+                                        var sorts = Enum.GetNames(typeof(SortType));
+                                        for (int iter = 0; iter < sorts.Length; iter++)
+                                        {
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="sortOrder" id="checkbox_@iter" value="@iter" @(iter == int.Parse(ViewData["sortOrder"].ToString()) ? "checked" : "") />
+                                                <label class="form-check-label" for="checkbox_@iter">@sorts[iter]</label>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-12 col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Origin</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{int i = -1;}
+                                        @foreach (var rss in Model)
+                                        {
+                                            i++;
+                                            <tr>
+                                                <th scope="row">@i</th>
+                                                <td style="height:10px; overflow:hidden"><a href="@rss.LinkToOriginal">@Trimer.Trim(rss.LinkToOriginal, lenght)</a></td>
+                                                <td style="height:10px; overflow:hidden">@Trimer.Trim(@rss.Title, titleLenght)</td>
+                                                <td style="height:10px; overflow:hidden">@Trimer.Trim(@rss.Description, lenght)</td>
+                                                <td style="height:10px; overflow:hidden">@rss.Date.ToShortDateString()</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <caption>Count @Model.Count()</caption>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col col-6">
+                                    <a class="btn btn-link @(int.Parse(ViewData["PriviousPage"].ToString()) < 1 ? "disabled" : "")" asp-action="ServerRender"
+                                        asp-route-page="@(int.Parse(ViewData["PriviousPage"].ToString()))"
+                                        asp-route-sortOrder="@ViewData["sortOrder"]"
+                                        asp-route-selectOnly="@ViewData["selectOnly"]">
+                                    <p><i class="fas fa-2x fa-arrow-circle-left"></i></p></a>
+                                </div>
+                                <div class="col col-6 text-right">
+                                    <a class="btn btn-link @(int.Parse(ViewData["NextPage"].ToString()) < 0 ? "disabled" : "")" asp-action="ServerRender"
+                                         asp-route-page="@(int.Parse(ViewData["NextPage"].ToString()))"
+                                        asp-route-sortOrder="@ViewData["sortOrder"]"
+                                        asp-route-selectOnly="@ViewData["selectOnly"]">
+                                    <p><i class="fas fa-2x fa-arrow-circle-right"></i></p></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+
+    }
+
+</div>
