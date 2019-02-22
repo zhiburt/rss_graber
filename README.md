@@ -1,5 +1,8 @@
 # rss_graber
-# on dotnet core
+
+### dependencies
+* dotnet core 2
+
 ## Get started
 You need init db (msqlocaldb default)
 ```
