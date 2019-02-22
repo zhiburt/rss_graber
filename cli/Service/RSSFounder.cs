@@ -14,12 +14,22 @@ namespace cli.Service
 {
     public class RSSFounder : IRSSFounder
     {
+        /// <summary>
+        /// Get RSS items from resurse(RSS chanel)
+        /// </summary>
+        /// <param name="res">chanel</param>
+        /// <returns>rss items of chanel</returns>
         public async Task<IEnumerable<RSS>> GetRSSFromChanel(RSSChanel res)
         {
             string rss = await GetRSSByURL(res.URL);
             return ParseRSS(rss);
         }
 
+        /// <summary>
+        /// GetRSSByURL go to remote servise by URL and get ones in string
+        /// </summary>
+        /// <param name="url">URL</param>
+        /// <returns>string view of rss</returns>
         private async Task<string> GetRSSByURL(string url)
         {
             var req = new HttpRequestMessage(HttpMethod.Get, url);
@@ -28,6 +38,11 @@ namespace cli.Service
             return await res.Content.ReadAsStringAsync();
         }
 
+        /// <summary>
+        /// ParseRSS gets only RSS items
+        /// </summary>
+        /// <param name="RSS">string RSS</param>
+        /// <returns>items</returns>
         private IEnumerable<RSS> ParseRSS(string RSS)
         {
             RSS = DoRemovespace(RSS);
@@ -52,13 +67,17 @@ namespace cli.Service
             return resp;
         }
 
-        private static string DoRemovespace(string strFile)
+        /// <summary>
+        /// DoRemovespace Remove some spaces at the begining of content(xml, rss)
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns>changed string</returns>
+        private static string DoRemovespace(string content)
         {
-
-            strFile = strFile.Replace("\n", "");
-            strFile = strFile.Replace("\r", "");
+            content = content.Replace("\n", "");
+            content = content.Replace("\r", "");
             Regex regex = new Regex(@">\s*<");
-            return regex.Replace(strFile, "><"); ;
+            return regex.Replace(content, "><"); ;
         }
     }
 }

@@ -4,6 +4,10 @@ using System.Text;
 
 namespace RSSRepository.Models
 {
+
+    /// <summary>
+    /// RSS is presentation of item in rss
+    /// </summary>
     public class RSS
     {
         public string Id { get; set; }

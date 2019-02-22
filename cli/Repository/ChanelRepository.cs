@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 
 namespace cli.Repository
 {
+    /// <summary>
+    /// Repository which works with chanels
+    /// chanel is a provider of RSS
+    /// </summary>
     public class ChanelRepository : IRepository<RSSChanel>
     {
         private readonly RSSContext _dbContext;

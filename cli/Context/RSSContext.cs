@@ -13,7 +13,9 @@ namespace RSSRepository.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            //config storage
             optionsBuilder.UseSqlServer(@"Server=(LocalDB)\MSSQLLocalDB;Initial Catalog=rss_db;Integrated Security=False;");
+
             base.OnConfiguring(optionsBuilder);
         }
     }

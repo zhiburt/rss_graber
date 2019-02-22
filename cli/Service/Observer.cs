@@ -26,6 +26,11 @@ namespace cli.Service
             this.rssRepository = rssRepository;
         }
 
+        /// <summary>
+        /// Update gets all rss items from chanels
+        /// and if they don't exist in add them
+        /// </summary>
+        /// <returns>Info that summary changed</returns>
         public async Task<Info> Update()
         {
             var info = new Info();
@@ -41,6 +46,11 @@ namespace cli.Service
             return info;
         }
 
+        /// <summary>
+        /// CreateAllRSSAsync Create all rss items and return info
+        /// </summary>
+        /// <param name="rs">all rss items</param>
+        /// <returns>Info is summary</returns>
         private async Task<Info> CreateAllRSSAsync(IEnumerable<RSS> rs)
         {
             Info i = new Info();

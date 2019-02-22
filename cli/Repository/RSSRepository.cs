@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace cli.Repository
 {
+    /// <summary>
+    /// Repository which works with RSS
+    /// RSS is presentation of item in rss
+    /// </summary>
     public class RSSRepository : IRepository<RSS>
     {
         private readonly RSSContext _dbContext;
