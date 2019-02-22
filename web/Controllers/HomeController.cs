@@ -53,6 +53,32 @@ namespace web.Controllers
             return View(model);
         }
 
+        public IActionResult ClientRender()
+        {
+            return View(_rssContext.Set<RSS>().AsNoTracking());
+        }
+
+        public IActionResult Contact()
+        {
+            ViewData["Message"] = "Your contact page.";
+
+            return View();
+        }
+
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        #region Private
+        
+        /// <summary>
+        /// get some rss from model page needs to show
+        /// and privios page index and next
+        /// </summary>
+        /// <param name="model">rss list</param>
+        /// <param name="page">current page</param>
+        /// <returns>Tuple</returns>
         private (List<RSS> newmodel, int privious, int next) Pagination(List<RSS> model, int page)
         {
             int privious = -1;
@@ -78,6 +104,14 @@ namespace web.Controllers
             return (model, privious, next);
         }
 
+        /// <summary>
+        /// select rss which only one resource
+        /// if selectOnly or selectOnlyCashe is empty return null
+        /// </summary>
+        /// <param name="model">RSSes</param>
+        /// <param name="selectOnly">resource</param>
+        /// <param name="selectOnlyCashe">resource from cashe</param>
+        /// <returns>RSSes</returns>
         private List<RSS> SelectOnlyByResource(List<RSS> model, string selectOnly, string selectOnlyCashe)
         {
             if (!string.IsNullOrEmpty(selectOnly) || !string.IsNullOrEmpty(selectOnlyCashe))
@@ -91,6 +125,13 @@ namespace web.Controllers
             return null;
         }
 
+        /// <summary>
+        /// Sort model by some type
+        /// and return one
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="sortOrder"></param>
+        /// <returns></returns>
         private List<RSS> SortBy(List<RSS> model, SortType sortOrder)
         {
             switch (sortOrder)
@@ -111,27 +152,17 @@ namespace web.Controllers
             return model;
         }
 
-        public IActionResult ClientRender()
-        {
-            return View(_rssContext.Set<RSS>().AsNoTracking());
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
+        /// <summary>
+        /// Trim some url signs and return link without ones
+        /// </summary>
+        /// <param name="link"></param>
+        /// <returns></returns>
         private string resourceName(string link)
         {
             var uri = new Uri(link);
             return uri.Host;
         }
+
+        #endregion
     }
 }
