@@ -1,5 +1,12 @@
 ﻿body {
+}
 
+.body-content {
+    background-color: whitesmoke;
+}
+
+.content {
+    background-color: ghostwhite;
 }
 
 /* Wrapping element */

@@ -60,7 +60,7 @@ namespace web.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "links on different platforms";
 
             return View();
         }
