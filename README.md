@@ -42,3 +42,12 @@ X - amount checked items from all chanels
 Server rendering works awesome
 
 Client well
+
+start server this way or use Visual Studio
+```
+$ cd web
+$ dotnet run
+```
+
+and yoo will see that
+![Demo Window](../assets/images/main.PNG?raw=true)
